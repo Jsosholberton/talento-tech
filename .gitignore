@@ -1,0 +1,11 @@
+# ide
+.idea
+.vscode
+
+# Environment files
+.env
+
+# Terraform temporal files
+/terraform
+
+*.zip

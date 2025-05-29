@@ -1,0 +1,79 @@
+swagger: "2.0"
+info:
+  version: "1.0"
+  title: "${ProjectName} ${Environment} API"
+
+paths:
+  /greeting:
+    options:
+      summary: CORS support
+      description: Send a preflight request to check for CORS
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: CORS response
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+              default: "'*'" # TODO: Replace '*' with specific allowed origins
+            Access-Control-Allow-Methods:
+              type: string
+              default: "'GET,OPTIONS'"
+            Access-Control-Allow-Headers:
+              type: string
+              default: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,x-id-token'"
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'" # TODO: Replace '*' with specific allowed origins
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,x-id-token'"
+            responseTemplates:
+              application/json: ""
+    get:
+      summary: Get a greeting based on the provided name
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: name
+          description: The name to greet
+          required: false
+          type: string
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:${Region}:lambda:path/2015-03-31/functions/${ProcessDataLambdaArn}/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'" # TODO: Replace '*' with specific allowed origins
+        httpMethod: "POST"
+        type: "aws_proxy"
+        requestTemplates:
+          application/json: |
+            {
+              "name": "$input.params('name')"
+            }
+      responses:
+        200:
+          description: "Successful response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+              default: "'*'" # TODO: Replace '*' with specific allowed origins
+            Access-Control-Allow-Methods:
+              type: string
+              default: "'GET,OPTIONS'"
+            Access-Control-Allow-Headers:
+              type: string
+              default: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,x-id-token'"
