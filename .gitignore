@@ -7,5 +7,9 @@
 
 # Terraform temporal files
 /terraform
+.terraform
+.terraform.lock.hcl
+# Terraform state files
+*.tfstate*
 
 *.zip

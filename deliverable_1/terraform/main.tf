@@ -1,7 +1,8 @@
 module "lambda_function" {
-  source       = "./modules/lambda"
-  environment  = var.environment[terraform.workspace]
-  project_name = var.project_name
+  source          = "./modules/lambda"
+  environment     = var.environment[terraform.workspace]
+  project_name    = var.project_name
+  lambda_role_arn = var.lambda_role_arn
 }
 
 module "api_gateway" {

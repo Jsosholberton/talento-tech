@@ -7,3 +7,8 @@ output "api_gateway_url" {
   description = "The URL of the API Gateway"
   value       = "https://${aws_api_gateway_rest_api.api.id}.execute-api.${var.region}.amazonaws.com/prod/greeting"
 }
+
+output "api_gateway_id" {
+  description = "The ID of the API Gateway"
+  value       = aws_api_gateway_rest_api.api.id
+}

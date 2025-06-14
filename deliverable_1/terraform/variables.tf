@@ -19,3 +19,9 @@ variable "environment" {
     default     = "test"
   }
 }
+
+variable "lambda_role_arn" {
+  description = "ARN of the IAM role for Lambda functions"
+  type        = string
+  default     = "arn:aws:iam::407496345527:role/LabRole"
+}
